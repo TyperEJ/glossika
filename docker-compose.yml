@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+    container_name: "glossika-app"
+    ports:
+      - "80:8000"
+    volumes:
+      - ./application:/var/www
+      - ./infra/supervisor/service.d/:/etc/supervisor/service.d/
+    networks:
+      - backend
+    depends_on:
+      - mysql
+  redis:
+    image: redis:latest
+    container_name: "glossika-redis"
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./infra/redis/data:/data
+      - ./infra/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      - backend
+  mysql:
+    image: mysql:latest
+    container_name: "glossika-mysql"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./infra/mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: glossika
+    networks:
+      - backend
+networks:
+  backend:
+    driver: bridge
