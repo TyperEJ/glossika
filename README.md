@@ -1,7 +1,7 @@
-# Glosskia 專案任務
+# Glossika 專案任務
 
 ## 簡介
-Glosskia專案任務
+Glossika 專案任務
 
 ## 啟動PHP、MySQL和Redis
 ```cmd
